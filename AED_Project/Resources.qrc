@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>3004project.jpg</file>
+        <file>greenCheck.jpg</file>
+        <file>redX.jpg</file>
+        <file>AED_Battery.jpg</file>
+    </qresource>
+</RCC>
