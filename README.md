@@ -1,30 +1,55 @@
-# AED Plus(Automated External Defibrillator Plus)
- COMP3004 Team Project using Qt for a AED UI 
- 
- Team Members:
- - Abdul Raheem
- - Giovanni Kassis
- - Aidan Mackenzie
- - Usman Iftikhar
+# AED Plus Simulator (C++ / Qt)
 
-<h1>Project Overview</h1>
-In this project, the team is tasked with designing and developing a software
-simulation of the AED Plus (Automated External Defibrillator Plus) system, a life-saving medical
-device used to assist individuals in cardiac emergencies.
-The goal of this project is to design and implement a simplified software simulation of the AED
-Plus device to demonstrate its functionality and provide user interaction.
+A desktop app that simulates the **AED Plus**, the portable defibrillator used to help someone whose heart has stopped. It was a team project for COMP 3004 (Object-Oriented Software Engineering) at Carleton University.
 
-<h1>Objective</h1>
-The objective of this project is to create a software simulation that mimics the core
-functionality of an AED Plus device allowing users to perform actions such as
-analyzing heart rhythms, providing electric shocks, and offering guidance during an emergency.
-All the technical information regarding the AED Plus is contained in the AED Plus
-Administrator’s Guide
+**Team:** Abdul Raheem, Giovanni Kassis, Aidan Mackenzie, Usman Iftikhar
 
-<h1>Documentation</h1>
+## What it does
 
-<h1>Technologies</h1>
+The app walks the user through a rescue, the same way the real device would:
 
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![Qt](https://img.shields.io/badge/Qt-%23217346.svg?style=for-the-badge&logo=Qt&logoColor=white)
-![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+1. **Power on and self-test.** Checks the battery and the unit before starting.
+2. **Voice and text prompts.** "Stay calm", "Call for help", "Attach pads"…
+3. **Pads.** The user chooses **adult** or **child** pads and places them.
+4. **Heart rhythm check.** The app shows a live **ECG graph** and decides whether a shock is needed. It can simulate normal rhythm, ventricular fibrillation (VF), ventricular tachycardia (VT) and flatline.
+5. **Shock.** If one is advised, it warns "Don't touch the patient" and delivers it.
+6. **CPR feedback.** It measures how deep the compressions are and says "Push harder" or "Good compressions".
+
+It also handles problem cases, like a **low battery** or **pads not attached properly**.
+
+## How it's built
+
+The code is split into classes that each do one job, and they talk to each other through Qt **signals and slots** (one part sends a message, another part reacts to it):
+
+| Class | Job |
+|---|---|
+| `MainWindow` | The user interface: buttons, lights, screen and ECG graph |
+| `SimulatedScenarios` | The main logic: runs each step of the rescue |
+| `ArrhythmiaDetection` | Creates the heart-rhythm data for each condition |
+| `CPRfeedback` | Checks compression depth and gives feedback |
+| `VisualPrompts` | All the text and voice prompts |
+
+The ECG graph uses the open-source [QCustomPlot](https://www.qcustomplot.com/) library.
+
+## Run it
+
+You need **Qt 5** (or Qt 6) and Qt Creator.
+
+1. Open `AED_Project/AED_Project.pro` in Qt Creator.
+2. Pick a kit and click **Run**.
+
+Or from the command line:
+
+```bash
+cd AED_Project
+qmake
+make
+./AED_Project
+```
+
+## What I learned
+
+- Planning a system with **UML class and sequence diagrams** before writing code
+- Splitting a large program into small classes with clear jobs
+- Event-driven design with signals and slots
+- Testing **failure cases** (low battery, bad pad contact), not just the happy path. That matters a lot for a safety device.
